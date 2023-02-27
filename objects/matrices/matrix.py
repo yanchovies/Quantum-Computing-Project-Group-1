@@ -1,4 +1,5 @@
 class Matrix:
+    """
     def __init__(self, numOfRows, numOfCols):
         self.matrix = self.get_matrix(numOfRows, numOfCols)
 
@@ -6,7 +7,7 @@ class Matrix:
         matrix = [[0 for j in range(numOfCols)] for i in range(numOfRows)]
         return matrix
 
-    """def get_readable_matrix_string(self, matrix):
+    def get_readable_matrix_string(self, matrix):
         strings = []
         for row in matrix:
             strings.append(str(row))
@@ -20,6 +21,27 @@ class Matrix:
 
     def __getitem__(self, item):
         return self.matrix[item] """
+
+    def __init__(self, potentialMatrix):
+        self.matrix = self.get_matrix(potentialMatrix)
+
+    def get_matrix(self, potentialMatrix):
+        listOfLenghts = []
+        for row in potentialMatrix:
+            listOfLenghts.append(len(row))
+
+        if len(set(listOfLenghts)) > 1:
+            raise Exception("The rows of the matrix are of unequal length")
+
+        #TODO: Should also check if entries are floats?
+
+        return potentialMatrix
+
+    def get_number_of_rows(self):
+        return len(self.matrix)
+
+    def get_number_of_columns(self):
+        return len(self.matrix[0])
 
     def get_element(self, i, j):
         return self.matrix[i - 1][j - 1]
@@ -54,11 +76,33 @@ class Matrix:
             return self.get_readable_matrix_string(self.multiply(other))
         return self.get_readable_matrix_string([[num * other for num in row] for row in self.matrix]) """
 
+    def multiply_matrix_by_constant(self, const):
+        for i in range(len(self.matrix)):
+            for j in range(len(self.matrix[0])):
+                self.matrix[i][j] = const * self.matrix[i][j]
+
+
     def tensor_product(self, otherMatrix):
         # this gives the matrix of the same size as the given matrix, but some of these elements are matrices now
-        result = [[num * otherMatrix for num in row] for row in self.matrix]
+        matrixOfMatrices = [[otherMatrix.multiply_matrix_by_constant(num) for num in row] for row in self.matrix]
+        # for row in self.matrix:
+        #     for elem in row:
+        #         for otherRow in otherMatrix:
+
 
         # splitting interior matrices into elements of one "big" matrix
-        # TODO: implement this
+        result = []
+        for currentRow in matrixOfMatrices:
+
+            # creating an empty list of lists which will then turn into our resultant matrix
+            intermediateResult = []
+            for i in range(len(otherMatrix)):
+                intermediateResult.append([])
+
+            for matrixInternal in currentRow:
+                for j in range(len(matrixInternal)): # note that len(matrixInternal) = len(otherMatrix)
+                    intermediateResult[j].extend(matrixInternal[j])
+
+            result.extend(intermediateResult)
 
         return result
