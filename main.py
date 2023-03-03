@@ -2,6 +2,7 @@ import numpy as np
 import random
 from math import gcd
 
+<<<<<<< HEAD
 def qft_matrix(n):
     """Returns the matrix for the quantum Fourier transform on n qubits."""
     N = 2**n
@@ -16,6 +17,14 @@ def qft(statevector):
     n = int(np.log2(len(statevector)))
     matrix = qft_matrix(n)
     return np.dot(matrix, statevector)
+=======
+if __name__ == "__main__":
+    mat1 = mat.Matrix([[3], [5], [7]])
+    mat2 = mat.Matrix([[2, 8], [7, 4]])
+
+    result = mat.tensor_product(mat1, mat2)
+    print(result)
+>>>>>>> 007898350f72ebf193c80e49a2d8cbf9db727b13
 
 def shor(N):
     """Implements Shor's algorithm for finding the prime factors of N."""
