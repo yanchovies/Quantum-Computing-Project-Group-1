@@ -29,6 +29,7 @@ class Matrix:
         listOfLenghts = []
         for row in potentialMatrix:
             listOfLenghts.append(len(row))
+            #listOfLenghts.append(row.shape[0])
 
         if len(set(listOfLenghts)) > 1:
             raise Exception("The rows of the matrix are of unequal length")
@@ -99,8 +100,8 @@ class Matrix:
 # class Operators:
 
 def tensor_product(matrix, otherMatrix):
-    if (not isinstance(matrix, Matrix)) or (not isinstance(otherMatrix, Matrix)):
-        raise Exception("The parameters of the function must be matrices")
+    #if (not isinstance(matrix, Matrix)) or (not isinstance(otherMatrix, Matrix)):
+    #    raise Exception("The parameters of the function must be matrices")
 
     # this gives the matrix of the same size as the given matrix, but some of these elements are matrices now
     # matrixOfMatrices = [[otherMatrix.multiply_matrix_by_constant(num) for num in row] for row in matrix.__dict__.get(next(iter(matrix.__dict__)))]
