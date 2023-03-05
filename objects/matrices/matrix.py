@@ -97,13 +97,21 @@ class Matrix:
 
 
 # class Operators:
+import numpy as np
 
 def tensor_product(matrix, otherMatrix):
+    use_ndarrays = False
+    if isinstance(matrix, np.ndarray) and isinstance(otherMatrix, np.ndarray):
+        use_ndarrays = True
+        matrix = Matrix(matrix.tolist())
+        otherMatrix = Matrix(otherMatrix.tolist())
+
     if (not isinstance(matrix, Matrix)) or (not isinstance(otherMatrix, Matrix)):
         raise Exception("The parameters of the function must be matrices")
 
     # this gives the matrix of the same size as the given matrix, but some of these elements are matrices now
-    # matrixOfMatrices = [[otherMatrix.multiply_matrix_by_constant(num) for num in row] for row in matrix.__dict__.get(next(iter(matrix.__dict__)))]
+    # matrixOfMatrices = [[otherMatrix.multiply_matrix_by_constant(num) for num in row] for row in
+    # matrix.__dict__.get(next(iter(matrix.__dict__)))]
     matrixOfMatrices = []
     for row in matrix.__dict__.get(next(iter(matrix.__dict__))):
         helper = []
@@ -126,4 +134,7 @@ def tensor_product(matrix, otherMatrix):
 
         result.extend(intermediateResult)
 
-    return result
+    if use_ndarrays:
+        return np.array(result)
+    else:
+        return result
