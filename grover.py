@@ -2,10 +2,12 @@ import numpy as np
 
 if __name__ == "__main__":
     
-    n = 3
-    target_state = [ 0, 1,0]
+    n = 8
+    target_state = [ 1,0,0,0]
     state_vector = np.zeros(2**n, dtype = 'complex')
     state_vector[0] = 1
+    
+    
     
     
     
@@ -26,7 +28,7 @@ if __name__ == "__main__":
     def phase_gate(n):
         
         Z = np.eye(2**n)
-        
+        #modify this later.
         Z[-1][-1] = -1
         
         return Z
@@ -93,6 +95,7 @@ if __name__ == "__main__":
     
     print(state_vector)
     idx = np.argmax(np.abs(state_vector))  # Find the index of the element with largest magnitude
+    print(idx)
     target = bin(idx)[2:]
     print(target)
     
