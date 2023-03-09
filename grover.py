@@ -1,3 +1,6 @@
+import objects.matrices.matrixElement as matEl
+import objects.matrices.matrix as mat
+
 import numpy as np
 
 if __name__ == "__main__":
@@ -18,9 +21,10 @@ if __name__ == "__main__":
     
     def X_gate():
         
-        X = np.array([[0,1], [1,0]])
+        el1 = matEl.MatrixElement(0, 1, 1.)
+        el2 = matEl.MatrixElement(1, 0, 1.)
         
-        return X
+        return mat.SparseMatrix([el1, el2])
     
     
     def phase_gate(n):

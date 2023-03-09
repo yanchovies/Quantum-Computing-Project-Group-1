@@ -50,7 +50,7 @@ class SparseMatrix:
                 if type(elem) == MatrixElement:
                     row[idx] = elem.value
             matrix.append(row)
-        return str(matrix)
+        return matrix
 
     def get_number_of_rows(self):
         return max([element.i for element in self.elements]) + 1
@@ -91,3 +91,21 @@ class SparseMatrix:
             if type(elem) == MatrixElement:
                 raw[idx] = elem.value
         return raw
+    
+    def addEl(self, element):
+        for preElem in self.elements:
+            if (preElem.i == element.i and preElem.j == element.j):
+                Exception("Element already exists at given position")
+            else:
+                self.elements.append(element)
+                self.numOfRows = self.get_number_of_rows()
+                self.numOfCols = self.get_number_of_columns()
+
+    def tensorProduct(self, other):
+        if type(other) != SparseMatrix:
+            raise TypeError("Invalid matrix type: " + str(type(other)))
+        elements = []
+        for element in self.elements:
+            for otherElement in other.elements:
+                elements.append(MatrixElement(element.i * other.numOfRows + otherElement.i, element.j * other.numOfCols + otherElement.j, element.value * otherElement.value))
+        return SparseMatrix(elements)
