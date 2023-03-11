@@ -1,3 +1,4 @@
+import objects.matrices.matrix as mat
 class MatrixElement:
     def __init__(self, i, j, value):
         self.i = int(i)
@@ -12,6 +13,9 @@ class MatrixElement:
             return float(self.value)
         except ValueError:
             raise ValueError("Invalid matrix element: " + str(self.value))
+            
+    def assign1(self, value1):
+        self.value = float(value1)
 
 
 class SparseMatrix:
@@ -100,6 +104,11 @@ class SparseMatrix:
                 self.elements.append(element)
                 self.numOfRows = self.get_number_of_rows()
                 self.numOfCols = self.get_number_of_columns()
+    def assign(self, element):
+        for preElem in self.elements:
+            if(preElem.i == element.i and preElem.j == element.j):
+                
+                preElem.assign1(element.value) 
 
     def tensorProduct(self, other):
         if type(other) != SparseMatrix:
@@ -109,3 +118,24 @@ class SparseMatrix:
             for otherElement in other.elements:
                 elements.append(MatrixElement(element.i * other.numOfRows + otherElement.i, element.j * other.numOfCols + otherElement.j, element.value * otherElement.value))
         return SparseMatrix(elements)
+    
+    def multiply(self, other):
+        if type(other) != mat.Matrix:
+            raise TypeError("Invalid matrix type: " + str(type(other)))
+        new_state = []
+        for i ,element in enumerate(self.elements):
+            new_state.append([element.value * other.get_element(element.j,0)])
+        return mat.Matrix(new_state)
+
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+

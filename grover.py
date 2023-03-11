@@ -74,6 +74,7 @@ if __name__ == "__main__":
     
        
     state_vector = H @ state_vector
+    print(state_vector)
     
 
     

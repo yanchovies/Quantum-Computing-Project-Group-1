@@ -1,26 +1,4 @@
 class Matrix:
-    """
-    def __init__(self, numOfRows, numOfCols):
-        self.matrix = self.get_matrix(numOfRows, numOfCols)
-
-    def get_matrix(self, numOfRows, numOfCols):
-        matrix = [[0 for j in range(numOfCols)] for i in range(numOfRows)]
-        return matrix
-
-    def get_readable_matrix_string(self, matrix):
-        strings = []
-        for row in matrix:
-            strings.append(str(row))
-        return '\n'.join(strings)
-
-    def __str__(self):
-        return self.get_readable_matrix_string(self.matrix)
-
-    def __len__(self):
-        return len(self.matrix)
-
-    def __getitem__(self, item):
-        return self.matrix[item] """
 
     def __init__(self, potentialMatrix):
         self.matrix = self.get_matrix(potentialMatrix)
@@ -53,7 +31,7 @@ class Matrix:
         return len(self.matrix[0])
 
     def get_element(self, i, j):
-        return self.matrix[i - 1][j - 1]
+        return self.matrix[i ][j ]
 
     def set_element(self, i, j, element):
         self.matrix[i - 1][j - 1] = element
@@ -65,25 +43,33 @@ class Matrix:
         # return self.get_readable_matrix_string(self.transpose(self.matrix))
         return self.transpose(self.matrix)
 
-    # def doTranspose(self):
-    #    self.matrix = self.transpose(self.matrix)
+
 
     def multiply(self, otherMatrix):
-        result = [[0 for j in range(len(otherMatrix[i]))] for i in range(len(self.matrix))]
+        result = [[0 for j in range((otherMatrix.get_number_of_columns()))] for i in range(len(self.matrix))]
         for i in range(len(self.matrix)):
-            for j in range(len(otherMatrix[0])):
-                for k in range(len(otherMatrix)):
-                    result[i][j] += self.matrix[i][k] * otherMatrix[k][j]
-        return result
+            for j in range((otherMatrix.get_number_of_columns())):
+                for k in range((otherMatrix.get_number_of_rows())):
+                    result[i][j] += self.matrix[i][k] * otherMatrix.get_element(k,j)
+        return Matrix(result)
+
 
     def get_multiply(self, otherMatrix):
         # return self.get_readable_matrix_string(self.multiply(matrix))
         return self.multiply(otherMatrix)
+    
+    def maximum_element(self):
 
-    """def __mul__(self, other):
-        if isinstance(other, Matrix):
-            return self.get_readable_matrix_string(self.multiply(other))
-        return self.get_readable_matrix_string([[num * other for num in row] for row in self.matrix]) """
+        max_abs_val = 0
+
+        for row in self.matrix:
+            for num in row:
+                abs_val = abs(num)
+                if abs_val > max_abs_val:
+                    max_abs_val = abs_val
+        return max_abs_val
+
+
 
     def multiply_matrix_by_constant(self, const):
         result = []
@@ -94,7 +80,6 @@ class Matrix:
             result.append(resultRow)
 
         return result
-
 
 # class Operators:
 import numpy as np
@@ -137,4 +122,20 @@ def tensor_product(matrix, otherMatrix):
     if use_ndarrays:
         return np.array(result)
     else:
-        return result
+        
+        return Matrix(result)
+
+
+#tensor product with numpy array
+def tensor_product_numpy(A, B):
+    m, n = A.shape
+    p, q = B.shape
+    C = [[0 for _ in range(n*q)] for _ in range(m*p)]
+    for i in range(m):
+        for j in range(n):
+            for k in range(p):
+                for l in range(q):
+                    C[i*p+k][j*q+l] = A[i][j] * B[k][l]
+                    
+    C = np.array(C)
+    return C
