@@ -8,9 +8,9 @@ import math
 
 if __name__ == "__main__":
     
-    n = 4
+    n = 7
     #target_state = [ 1,1]
-    target_state = (bin(6)[2:])
+    target_state = (bin(200)[2:])
     state_vector = []
     for i in range(2**n):
         if i == 0:
@@ -100,8 +100,19 @@ if __name__ == "__main__":
         state_type.append(str(all_states[i]))
         final_state.append(abs(state_vector.get_element(i,0)))
     
-    target_position = final_state.index(max(final_state))
-    print("The target is " + str(target_position))
+    not_found = True
+    first_state = final_state[0]
+    for s in final_state:
+        if s != first_state:
+            not_found = False
+            
+    if not_found == False:
+        
+    
+        target_position = final_state.index(max(final_state))
+        print("The target is " + str(target_position))
+    else:
+        print("The target was not found!")
     
     plt.bar(state_type, final_state)
     
