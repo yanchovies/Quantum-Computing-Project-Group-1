@@ -161,7 +161,7 @@ def possible_states(n):
 
 def grovers_algorithm(n):
     # target_state = [ 1,1]
-    target_state = (bin(200)[2:])
+    target_state = (bin(4)[2:])
     state_vector = []
     for i in range(2 ** n):
         if i == 0:
