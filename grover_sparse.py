@@ -10,7 +10,7 @@ if __name__ == "__main__":
     
     n = 5
     #target_state = [ 1,1]
-    target_state = (bin(48)[2:])
+    target_state = (bin(16)[2:])
     state_vector = []
     for i in range(2**n):
         if i == 0:
