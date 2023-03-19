@@ -11,7 +11,7 @@ if __name__ == "__main__":
 
     if option == 1:
         # run Grover's algorithm
-        grovers_algorithm(7)
+        grovers_algorithm(8)
     else:
         factors = shors_algorithm(135)
         print(factors)

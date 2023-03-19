@@ -8,7 +8,7 @@ import math
 
 """if __name__ == "__main__":
     
-    n = 7
+    n = 8
     #target_state = [ 1,1]
     target_state = (bin(200)[2:])
     state_vector = []
@@ -58,8 +58,6 @@ import math
 
     state_vector = H.multiply(state_vector)
 
-    
-    
     number_iterations = int(np.pi / 4 * np.sqrt(2**n))
  
     
@@ -72,8 +70,12 @@ import math
         
         #oracle
         state_vector = O.multiply(state_vector)
+        if i == 0:
+            print(state_vector.get_readable_matrix_string())
         #grover gates
         state_vector = H.multiply(state_vector)
+        if i == 0:
+            print(state_vector.get_readable_matrix_string())
         state_vector = X.multiply(state_vector)
         state_vector = Z.multiply(state_vector)
         state_vector = X.multiply(state_vector)
@@ -90,7 +92,7 @@ import math
         return list(itertools.product([0, 1], repeat=n))
     
     all_states = possible_states(n)
-   
+
     final_state = []
     state_type = []
     
@@ -195,11 +197,12 @@ def grovers_algorithm(n):
         state_vector = O.multiply(state_vector)
         # grover gates
         state_vector = mat.dot_product(H, state_vector)
+        if i == 0:
+            print(state_vector.get_readable_matrix_string())
         state_vector = X.multiply(state_vector)
         state_vector = Z.multiply(state_vector)
         state_vector = X.multiply(state_vector)
         state_vector = mat.dot_product(H, state_vector)
-        print(type(state_vector))
 
         amplitude.append(state_vector.maximum_element())
 
