@@ -8,9 +8,9 @@ import math
 
 """if __name__ == "__main__":
     
-    n = 5
+    n = 8
     #target_state = [ 1,1]
-    target_state = (bin(16)[2:])
+    target_state = (bin(200)[2:])
     state_vector = []
     for i in range(2**n):
         if i == 0:
@@ -19,22 +19,18 @@ import math
             state_vector.append([0])
     
     state_vector = mat.Matrix(state_vector)
-
     
     g = G.Gates(n)
     H = g.Hadamard_gate()
     X = g.X_gate()
     Z = g.phase_gate()
     I = g.identity_gate()
-
     
     
     
         
-
     
     
-
     
     def oracle(n, target_state):
         oracle_matrix = I
@@ -44,8 +40,6 @@ import math
         return oracle_matrix
     
     
-
-
     O = oracle(n, target_state)
     
     
@@ -55,11 +49,7 @@ import math
     
     
     #superposition state
-
     state_vector = H.multiply(state_vector)
-
-    
-    
     number_iterations = int(np.pi / 4 * np.sqrt(2**n))
  
     
@@ -72,8 +62,12 @@ import math
         
         #oracle
         state_vector = O.multiply(state_vector)
+        if i == 0:
+            print(state_vector.get_readable_matrix_string())
         #grover gates
         state_vector = H.multiply(state_vector)
+        if i == 0:
+            print(state_vector.get_readable_matrix_string())
         state_vector = X.multiply(state_vector)
         state_vector = Z.multiply(state_vector)
         state_vector = X.multiply(state_vector)
@@ -90,7 +84,6 @@ import math
         return list(itertools.product([0, 1], repeat=n))
     
     all_states = possible_states(n)
-   
     final_state = []
     state_type = []
     
@@ -117,31 +110,22 @@ import math
     
     
     angles = np.arcsin(np.array(amplitude))
-
-
-
-
     # Create a figure and axis object
     fig, ax = plt.subplots()
-
     # Plot a line from (0,0) to (cos(theta), sin(theta)) for each angle theta
     for i in angles:
         x = math.cos(i)
         y = math.sin(i)
         ax.plot([0, x], [0, y], '-o', label=f'{round(math.degrees(i),3)} degrees')
-
     # Set the limits of the x and y axes
     ax.set_xlim([0, 1])
     ax.set_ylim([0, 1])
-
     # Set the labels for the x and y axes
     ax.set_xlabel('|state perpendicular to target state>')
     ax.set_ylabel('|target state>')
     ax.legend()
     # Set the title of the plot
     ax.set_title('Amplitude amplification of target state ')
-
-
     plt.show()"""
 
 
@@ -161,7 +145,7 @@ def possible_states(n):
 
 def grovers_algorithm(n):
     # target_state = [ 1,1]
-    target_state = (bin(4)[2:])
+    target_state = (bin(200)[2:])
     state_vector = []
     for i in range(2 ** n):
         if i == 0:
@@ -195,11 +179,12 @@ def grovers_algorithm(n):
         state_vector = O.multiply(state_vector)
         # grover gates
         state_vector = mat.dot_product(H, state_vector)
+        if i == 0:
+            print(state_vector.get_readable_matrix_string())
         state_vector = X.multiply(state_vector)
         state_vector = Z.multiply(state_vector)
         state_vector = X.multiply(state_vector)
         state_vector = mat.dot_product(H, state_vector)
-        print(type(state_vector))
 
         amplitude.append(state_vector.maximum_element())
 

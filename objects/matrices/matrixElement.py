@@ -124,7 +124,7 @@ class SparseMatrix:
             raise TypeError("Invalid matrix type: " + str(type(other)))
         new_state = []
         for i ,element in enumerate(self.elements):
-            new_state.append([element.value * other.get_element(element.j,0)])
+            new_state.append([element.value * other.get_element(element.j, 0)])
         return mat.Matrix(new_state)
 
     

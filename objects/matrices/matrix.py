@@ -68,7 +68,7 @@ class Matrix:
 
     """def get_transpose(self):
         # return self.get_readable_matrix_string(self.transpose(self.matrix))
-        return self.transpose(self.matrix)
+        return self.transpose(self.matrix)"""
 
     def multiply(self, otherMatrix):
         result = [[0 for j in range((otherMatrix.get_number_of_columns()))] for i in range(len(self.matrix))]
@@ -80,7 +80,7 @@ class Matrix:
 
     def get_multiply(self, otherMatrix):
         # return self.get_readable_matrix_string(self.multiply(matrix))
-        return self.multiply(otherMatrix)"""
+        return self.multiply(otherMatrix)
 
     def maximum_element(self):
 
@@ -159,7 +159,7 @@ def dot_product(matrix, otherMatrix):
         """if matrix.get_number_of_rows() != otherMatrix.get_number_of_rows():
             raise Exception("Dimensions do not match")
         else:"""
-        return sum([matrix.get_element(i, 0) * otherMatrix.get_element(i, 0) for i in range(matrix.get_number_of_rows())])
+        return sum([matrix.get_element(0, i) * otherMatrix.get_element(i, 0) for i in range(matrix.get_number_of_columns())])
 
     elif matrix.get_number_of_columns() == otherMatrix.get_number_of_rows():
         result = []
