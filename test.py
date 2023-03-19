@@ -7,12 +7,12 @@ from grover_sparse import grovers_algorithm
 
 if __name__ == "__main__":
 
-    option = 1
+    option = 2
 
     if option == 1:
         # run Grover's algorithm
-        grovers_algorithm(8,4)
+        grovers_algorithm(8, 4)
 
     else:
-        factors = shors_algorithm(135)
+        factors = shors_algorithm(1347)
         print(factors)
