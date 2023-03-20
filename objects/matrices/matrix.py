@@ -20,6 +20,11 @@ class Matrix:
         if len(set(listOfLenghts)) > 1:
             raise Exception("The rows of the matrix are of unequal length")
 
+        for row in potentialMatrix:
+            for col in row:
+                if not isinstance(col, int) and not isinstance(col, float) and not isinstance(col, complex):
+                    raise Exception("elements of the matrix must be of type int or float")
+
         return potentialMatrix
 
     def get_matrix_as_list(self):
