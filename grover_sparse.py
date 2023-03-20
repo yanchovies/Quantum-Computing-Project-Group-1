@@ -82,12 +82,18 @@ def grovers_algorithm(n,k):
     if not not_found:
 
         target_position = final_state.index(max(final_state))
+        target_amplitude = np.square(max(final_state))
+        target_amplitude = round(target_amplitude,3)
         #print("The target is " + str(target_position))
     else:
         #print("The target was not found!")
+        target_amplitude = "none"
         target_position = "The target was not found!"
     fig1 = plt.figure()
     plt.bar(state_type, final_state)
+    plt.xlabel('Amplitude of state vector')
+    plt.ylabel('State vector')
+    
     fig1.savefig('static/plot1.png')
 
     angles = np.arcsin(np.array(amplitude))
@@ -114,4 +120,4 @@ def grovers_algorithm(n,k):
     fig.savefig('static/plot2.png')
 
     #plt.show()
-    return target_position
+    return target_position,target_amplitude

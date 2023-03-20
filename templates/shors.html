@@ -3,9 +3,12 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Sans&family=Rajdhani:wght@300&family=Roboto&display=swap" rel="stylesheet">
     <title>Grover Search</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-     <link rel="stylesheet" type="text/css"  href="{{url_for('static', filename = 'main2.css')}}">
+     <link rel="stylesheet" type="text/css"  href="{{url_for('static', filename = 'main3.css')}}">
   </head>
   <body>
     <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
@@ -16,25 +19,24 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-link active" aria-current="page" href="#">Home</a>
         <a class="nav-link" href="{{url_for('shors')}}">Shors algorithm</a>
+        
       </div>
     </div>
   </div>
 </nav>
+<h3> Quantum Circuit implementing Shor's Algorithm </h3>
+
+<div id="grover_input">
+<form action="{{url_for('shors')}}", method="POST">
 
 
 
-{% if send_found %}
 
-    <h3 class="nothing">{{send_found}}</h3>
+<label for="target" id= "state">Enter Integer value :</label> <input id="target" name="target" type="number" required min="0"/>
 
-
-{% endif %}
-
-<div class="gallery">
-    <img src="{{ url_for('static', filename='plot1.png') }}" alt="Plot 1">
-    <img src="{{ url_for('static', filename='plot2.png') }}" alt="Plot 2">
+<button type="submit" class="btn btn-dark" id = "search">Serach</button>
+</form>
 </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
   </body>
