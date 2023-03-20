@@ -8,12 +8,24 @@ from objects.matrices.matrix import Matrix, tensor_product, dot_product
 
 
 def gcd(a, b):
+    """
+    This function calculates the greatest common divisor.
+    :param a, b: numbers.
+    :return: the gcd of given two numbers.
+    """
+
     while b:
         a, b = b, a % b
     return a
 
 
 def mod_exp(x, y, N):
+    """
+    This function computes the modular exponentiation of x raised to the power of y modulo N.
+    :param a, b, N: numbers.
+    :return: (x**y) % N.
+    """
+
     if y == 0:
         return 1
     z = mod_exp(x, y // 2, N)
@@ -24,17 +36,36 @@ def mod_exp(x, y, N):
 
 
 def repeated_hadamard(h, n_of_qubits):
+    """
+    This function computes the tensor product of Hadamard gates based on what is the number of qubits.
+    :param h: Hadamard gate.
+    :param n_of_qubits: number of qubits.
+    :return: the tensor product.
+    """
+
     # tensor product of some number of hadamard gates
     return tensor_product(h, h) if n_of_qubits == 2 else tensor_product(h, repeated_hadamard(h, n_of_qubits - 1))
 
 
 def controlled_U_gate(a, N, n_of_qubits):
-    # diagonal matrix where each diagonal entry is mod_exp(a, i, N)
+    """
+    This function computes the controlled U gate, i.e. a diagonal matrix where each diagonal entry is mod_exp(a, i, N).
+    :param a, N: numbers.
+    :param n_of_qubits: number of qubits.
+    :return: the controlled U gate.
+    """
+
     return Matrix(
         [[mod_exp(a, i, N) if i == j else 0 for i in range(2 ** n_of_qubits)] for j in range(2 ** n_of_qubits)])
 
 
 def qft_calculation(n_of_qubits):
+    """
+    This function computes the QFT.
+    :param n_of_qubits: number of qubits.
+    :return: QFT.
+    """
+
     qft = np.zeros((2 ** n_of_qubits, 2 ** n_of_qubits), dtype=complex)
     omega = np.exp(-2j * np.pi / (2 ** n_of_qubits))
     for i in range(2 ** n_of_qubits):
@@ -44,6 +75,12 @@ def qft_calculation(n_of_qubits):
 
 
 def period_finding(a, N):
+    """
+    This function finds the period r using quantum computing.
+    :param a, N: numbers.
+    :return: r.
+    """
+
     # necessary number of qubits
     n_of_qubits = math.ceil(math.log2(N))
 
@@ -78,6 +115,12 @@ def period_finding(a, N):
 
 
 def shors_algorithm(N):
+    """
+    This function runs Shor's algorithm.
+    :param N: number to factorise.
+    :return: the factors of N.
+    """
+
     if N < 4:
         raise Exception("Number is too small")
 
