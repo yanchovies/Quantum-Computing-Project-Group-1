@@ -3,8 +3,8 @@ restore_data_on_startup = True
 save_data_on_exit = True
 save_history = True
 save_non_project_files = False
-project_type = empty-project-type
-recent_files = []
+project_type = 'empty-project-type'
+recent_files = ['..\\.spyder-py3\\temp.py', 'static\\main1.css', 'templates\\home.html', 'templates\\results.html', 'app.py', 'gates.py', 'grover.py', 'grover_sparse.py', 'shor.py', 'templates\\shors.html', 'templates\\document.html', 'static\\main2.css', 'static\\main3.css', 'test.py', 'templates\\shor_factor.html', 'static\\main4.css']
 
 [main]
 version = 0.2.0

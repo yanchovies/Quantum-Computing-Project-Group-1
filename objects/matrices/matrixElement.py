@@ -1,5 +1,10 @@
 import objects.matrices.matrix as mat
+
+
 class MatrixElement:
+    """
+    This class represents elements of a sparse matrix.
+    """
     def __init__(self, i, j, value):
         self.i = int(i)
         self.j = int(j)
@@ -13,12 +18,17 @@ class MatrixElement:
             return float(self.value)
         except ValueError:
             raise ValueError("Invalid matrix element: " + str(self.value))
-            
+
     def assign1(self, value1):
         self.value = float(value1)
 
 
 class SparseMatrix:
+    """
+    This class represents sparse matrices. In our implementation of Grover's and Shor's algorithms, we use sparse
+    matrices interchangeably with matrices that are represented by Matrix class.
+    """
+
     def __init__(self, elements):
         self.elements = self.get_elements(elements)
         self.numOfRows = self.get_number_of_rows()
@@ -95,20 +105,20 @@ class SparseMatrix:
             if type(elem) == MatrixElement:
                 raw[idx] = elem.value
         return raw
-    
+
     def addEl(self, element):
         for preElem in self.elements:
-            if (preElem.i == element.i and preElem.j == element.j):
+            if preElem.i == element.i and preElem.j == element.j:
                 Exception("Element already exists at given position")
             else:
                 self.elements.append(element)
                 self.numOfRows = self.get_number_of_rows()
                 self.numOfCols = self.get_number_of_columns()
+
     def assign(self, element):
         for preElem in self.elements:
-            if(preElem.i == element.i and preElem.j == element.j):
-                
-                preElem.assign1(element.value) 
+            if preElem.i == element.i and preElem.j == element.j:
+                preElem.assign1(element.value)
 
     def tensorProduct(self, other):
         if type(other) != SparseMatrix:
@@ -116,26 +126,15 @@ class SparseMatrix:
         elements = []
         for element in self.elements:
             for otherElement in other.elements:
-                elements.append(MatrixElement(element.i * other.numOfRows + otherElement.i, element.j * other.numOfCols + otherElement.j, element.value * otherElement.value))
+                elements.append(MatrixElement(element.i * other.numOfRows + otherElement.i,
+                                              element.j * other.numOfCols + otherElement.j,
+                                              element.value * otherElement.value))
         return SparseMatrix(elements)
-    
+
     def multiply(self, other):
         if type(other) != mat.Matrix:
             raise TypeError("Invalid matrix type: " + str(type(other)))
         new_state = []
-        for i ,element in enumerate(self.elements):
-            new_state.append([element.value * other.get_element(element.j,0)])
+        for i, element in enumerate(self.elements):
+            new_state.append([element.value * other.get_element(element.j, 0)])
         return mat.Matrix(new_state)
-
-    
-    
-    
-    
-
-    
-    
-    
-
-
-
-
