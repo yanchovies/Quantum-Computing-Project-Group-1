@@ -7,18 +7,6 @@ from fractions import Fraction
 from objects.matrices.matrix import Matrix, tensor_product, dot_product
 
 
-def gcd(a, b):
-    """
-    This function calculates the greatest common divisor.
-    :param a, b: numbers.
-    :return: the gcd of given two numbers.
-    """
-
-    while b:
-        a, b = b, a % b
-    return a
-
-
 def mod_exp(x, y, N):
     """
     This function computes the modular exponentiation of x raised to the power of y modulo N.
@@ -66,12 +54,12 @@ def qft_calculation(n_of_qubits):
     :return: QFT.
     """
 
-    qft = np.zeros((2 ** n_of_qubits, 2 ** n_of_qubits), dtype=complex)
+    qft = [[0 for i in range(2 ** n_of_qubits)] for j in range(2 ** n_of_qubits)]
     omega = np.exp(-2j * np.pi / (2 ** n_of_qubits))
     for i in range(2 ** n_of_qubits):
         for j in range(2 ** n_of_qubits):
-            qft[i, j] = omega ** (i * j)
-    return qft / np.sqrt(2 ** n_of_qubits)
+            qft[i][j] = omega ** (i * j)
+    return [[elem / np.sqrt(2 ** n_of_qubits) for elem in row] for row in qft]
 
 
 def period_finding(a, N):
@@ -99,7 +87,7 @@ def period_finding(a, N):
     register = dot_product(controlled_U_gate(a, N, n_of_qubits), register)
 
     # applying QFT
-    register = dot_product(Matrix(qft_calculation(n_of_qubits).tolist()), register)
+    register = dot_product(Matrix(qft_calculation(n_of_qubits)), register)
 
     # converting the register to a single list, then to a numpy array
     register = np.array(register.transpose().get_row(0))
@@ -121,9 +109,6 @@ def shors_algorithm(N):
     :return: the factors of N.
     """
 
-    if N < 4:
-        raise Exception("Number is too small")
-
     # if N is even, we can definitely give two factors
     if N % 2 == 0:
         # print("N is divisible by two, so it was easy to find the factors")
@@ -132,7 +117,7 @@ def shors_algorithm(N):
     while True:
         a = random.randint(2, N - 1)
         # print("current a is:", a)
-        factor = gcd(a, N)
+        factor = math.gcd(a, N)
 
         # if gcd(a, N) is greater than N, then we get our non-trivial factor
         if factor > 1:
@@ -148,8 +133,8 @@ def shors_algorithm(N):
             x = mod_exp(a, r // 2, N)
             if x != N - 1:
                 # calculating the non-trivial factors since a^(r/2) mod N is congruent to -1 (mod N)
-                factor1 = gcd(x + 1, N)
-                factor2 = gcd(x - 1, N)
+                factor1 = math.gcd(x + 1, N)
+                factor2 = math.gcd(x - 1, N)
                 if factor1 != 1 and factor1 != N and factor2 != 1 and factor2 != N:
                     # if the factors are indeed non-trivial, we return them
                     # print("These factors were found with quantum computation involved")
