@@ -102,7 +102,7 @@ def period_finding(a, N):
 def shors_algorithm(N):
     """
     This function runs Shor's algorithm.
-    :param N: number to factorise.
+    :param N: the number to factorise.
     :return: the factors of N.
     """
 
