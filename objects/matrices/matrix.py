@@ -10,20 +10,29 @@ class Matrix:
     def get_matrix(self, potentialMatrix):
         if type(potentialMatrix) != list:
             raise Exception("Input cannot be a matrix")
-        elif type(potentialMatrix[0]) != list:
+
+        # then checking if not all elements inside a list are lists. If that is the case, we add extra dimension
+        flag = True
+        for elem in potentialMatrix:
+            flag = isinstance(elem, list)
+        if not flag:
             potentialMatrix = [potentialMatrix]
 
-        listOfLenghts = []
+        # checking if every element is either an int or a float or complex
         for row in potentialMatrix:
-            listOfLenghts.append(len(row))
-
-        if len(set(listOfLenghts)) > 1:
-            raise Exception("The rows of the matrix are of unequal length")
-
-        for row in potentialMatrix:
+            # here also checking if the matrix is a list of lists, hence 2-dimensional
+            # if not isinstance(row, list):
+            #     raise Exception("a matrix must be a two-dimensional list")
             for col in row:
                 if not isinstance(col, int) and not isinstance(col, float) and not isinstance(col, complex):
                     raise Exception("elements of the matrix must be of type int or float")
+
+        # checking if all rows have the same length
+        listOfLenghts = []
+        for row in potentialMatrix:
+            listOfLenghts.append(len(row))
+        if len(set(listOfLenghts)) > 1:
+            raise Exception("The rows of the matrix are of unequal length")
 
         return potentialMatrix
 
@@ -106,7 +115,7 @@ def tensor_product(matrix, otherMatrix):
 
     # this gives the matrix of the same size as the given matrix, but some of these elements are matrices now
     matrixOfMatrices = []
-    for row in matrix.__dict__.get(next(iter(matrix.__dict__))):
+    for row in matrix.get_matrix_as_list():
         helper = []
         for num in row:
             helper.append(otherMatrix.multiply_matrix_by_constant(num))
@@ -140,14 +149,18 @@ def dot_product(matrix, otherMatrix):
     if (not isinstance(matrix, Matrix)) or (not isinstance(otherMatrix, Matrix)):
         raise Exception("The parameters of the function must be matrices")
 
+    # base case
     if (matrix.get_number_of_rows() == 1) and (otherMatrix.get_number_of_columns() == 1):
         return sum([matrix.get_element(0, i) * otherMatrix.get_element(i, 0) for i in range(matrix.get_number_of_columns())])
 
+    # if conditions for matrix multiplication are satisfied
     elif matrix.get_number_of_columns() == otherMatrix.get_number_of_rows():
         result = []
         for i in range(matrix.get_number_of_rows()):
+            # empty list that represent rows of resultant matrix
             rows_in_result = []
             for j in range(otherMatrix.get_number_of_columns()):
+                # calculating entries
                 rows_in_result.append(dot_product(matrix.get_row_as_matrix(i), otherMatrix.get_column_as_matrix(j).transpose()))
             result.append(rows_in_result)
 

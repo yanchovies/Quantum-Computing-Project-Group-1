@@ -7,7 +7,7 @@ from grover_sparse import grovers_algorithm
 
 if __name__ == "__main__":
 
-    option = 1
+    option = 2
 
     if option == 1:
         # run Grover's algorithm

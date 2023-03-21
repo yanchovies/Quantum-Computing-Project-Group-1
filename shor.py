@@ -85,7 +85,7 @@ def period_finding(a, N):
     n_of_qubits = math.ceil(math.log2(N))
 
     # initialise register as a vector of dimension 2^n_of_qubits
-    register = Matrix([0 for i in range(2 ** n_of_qubits)])  # np.zeros(2 ** n_of_qubits)
+    register = Matrix([0 for i in range(2 ** n_of_qubits)])
     # setting the first element to 1
     register.set_element(0, 0, 1)
 
@@ -126,22 +126,22 @@ def shors_algorithm(N):
 
     # if N is even, we can definitely give two factors
     if N % 2 == 0:
-        #print("N is divisible by two, so it was easy to find the factors")
+        # print("N is divisible by two, so it was easy to find the factors")
         return 2, N // 2
 
     while True:
         a = random.randint(2, N - 1)
-        #print("current a is:", a)
+        # print("current a is:", a)
         factor = gcd(a, N)
 
         # if gcd(a, N) is greater than N, then we get our non-trivial factor
         if factor > 1:
-            #print("We managed to find two factors without quantum computation involved")
+            # print("We managed to find two factors without quantum computation involved")
             return factor, N // factor
 
         # calculating the period
         r = period_finding(a, N)
-        #print("current period is", r)
+        # print("current period is", r)
 
         if r % 2 == 0:
             # calculating a^(r/2) mod N since r is even
@@ -152,5 +152,5 @@ def shors_algorithm(N):
                 factor2 = gcd(x - 1, N)
                 if factor1 != 1 and factor1 != N and factor2 != 1 and factor2 != N:
                     # if the factors are indeed non-trivial, we return them
-                    #print("These factors were found with quantum computation involved")
+                    # print("These factors were found with quantum computation involved")
                     return factor1, factor2
