@@ -3,8 +3,6 @@ import objects.matrices.matrix as mat
 import objects.matrices.matrixElement as matEl
 from shor import shors_algorithm
 from grover_sparse import grovers_algorithm
-import os
-
 
 
 
@@ -15,9 +13,9 @@ import os
 
 app = Flask(__name__)
 
-#app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
-port = int(os.environ.get('PORT', 5000))
+
 
 
 
@@ -69,7 +67,7 @@ def shors():
     
     
 if __name__ == '__main__':
-    app.run(port=port)
+    app.run(debug =True)
 
 
 
