@@ -4,6 +4,12 @@ import numpy as np
 
 
 class Gates:
+    """
+    This class contains implementation of gates that form quantum circuits required to run Grover's and Shor's
+    algorithms. Hadamard gate is implemented as using Matrix class while the rest of the gates are implemented using
+    SparseMatrix class.
+    """
+
     def __init__(self, n):
         self.n = n
     

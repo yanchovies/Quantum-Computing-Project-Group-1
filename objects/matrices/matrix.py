@@ -1,4 +1,8 @@
 class Matrix:
+    """
+    This class represents matrices. In our implementation of Grover's and Shor's algorithms, we use
+    matrices represented by this class interchangeably with matrices that are represented by SparseMatrix class.
+    """
 
     def __init__(self, potentialMatrix):
         self.matrix = self.get_matrix(potentialMatrix)
@@ -6,13 +10,27 @@ class Matrix:
     def get_matrix(self, potentialMatrix):
         if type(potentialMatrix) != list:
             raise Exception("Input cannot be a matrix")
-        elif type(potentialMatrix[0]) != list:
+
+        # then checking if not all elements inside a list are lists. If that is the case, we add extra dimension
+        flag = True
+        for elem in potentialMatrix:
+            flag = isinstance(elem, list)
+        if not flag:
             potentialMatrix = [potentialMatrix]
 
+        # checking if every element is either an int or a float or complex
+        for row in potentialMatrix:
+            # here also checking if the matrix is a list of lists, hence 2-dimensional
+            # if not isinstance(row, list):
+            #     raise Exception("a matrix must be a two-dimensional list")
+            for col in row:
+                if not isinstance(col, int) and not isinstance(col, float) and not isinstance(col, complex):
+                    raise Exception("elements of the matrix must be of type int or float")
+
+        # checking if all rows have the same length
         listOfLenghts = []
         for row in potentialMatrix:
             listOfLenghts.append(len(row))
-
         if len(set(listOfLenghts)) > 1:
             raise Exception("The rows of the matrix are of unequal length")
 
@@ -25,15 +43,12 @@ class Matrix:
         strings = []
         for row in self.matrix:
             strings.append(row)
-        # return '\n'.join(strings)
         return strings
 
     def get_number_of_rows(self):
-        # return len(self.matrix.__dict__.get(next(iter(self.matrix.__dict__))))
         return len(self.matrix)
 
     def get_number_of_columns(self):
-        # return len(self.matrix.__dict__.get(next(iter(self.matrix.__dict__)))[0])
         return len(self.matrix[0])
 
     def get_element(self, i, j):
@@ -66,22 +81,6 @@ class Matrix:
         matrix = self.matrix
         return Matrix([list(i) for i in zip(*matrix)])
 
-    """def get_transpose(self):
-        # return self.get_readable_matrix_string(self.transpose(self.matrix))
-        return self.transpose(self.matrix)"""
-
-    def multiply(self, otherMatrix):
-        result = [[0 for j in range((otherMatrix.get_number_of_columns()))] for i in range(len(self.matrix))]
-        for i in range(len(self.matrix)):
-            for j in range((otherMatrix.get_number_of_columns())):
-                for k in range((otherMatrix.get_number_of_rows())):
-                    result[i][j] += self.matrix[i][k] * otherMatrix.get_element(k, j)
-        return Matrix(result)
-
-    def get_multiply(self, otherMatrix):
-        # return self.get_readable_matrix_string(self.multiply(matrix))
-        return self.multiply(otherMatrix)
-
     def maximum_element(self):
 
         max_abs_val = 0
@@ -104,25 +103,19 @@ class Matrix:
         return result
 
 
-# class Operators:
-import numpy as np
-
-
 def tensor_product(matrix, otherMatrix):
-    use_ndarrays = False
-    if isinstance(matrix, np.ndarray) and isinstance(otherMatrix, np.ndarray):
-        use_ndarrays = True
-        matrix = Matrix(matrix.tolist())
-        otherMatrix = Matrix(otherMatrix.tolist())
+    """
+    This function computes a tensor product of two matrices of Matrix class.
+    :param matrix, otherMatrix: matrices.
+    :return: tensor product.
+    """
 
     if (not isinstance(matrix, Matrix)) or (not isinstance(otherMatrix, Matrix)):
         raise Exception("The parameters of the function must be matrices")
 
     # this gives the matrix of the same size as the given matrix, but some of these elements are matrices now
-    # matrixOfMatrices = [[otherMatrix.multiply_matrix_by_constant(num) for num in row] for row in
-    # matrix.__dict__.get(next(iter(matrix.__dict__)))]
     matrixOfMatrices = []
-    for row in matrix.__dict__.get(next(iter(matrix.__dict__))):
+    for row in matrix.get_matrix_as_list():
         helper = []
         for num in row:
             helper.append(otherMatrix.multiply_matrix_by_constant(num))
@@ -143,47 +136,34 @@ def tensor_product(matrix, otherMatrix):
 
         result.extend(intermediateResult)
 
-    if use_ndarrays:
-        return np.array(result)
-    else:
-
-        return Matrix(result)
+    return Matrix(result)
 
 
 def dot_product(matrix, otherMatrix):
+    """
+    This function computes a product of two matrices of Matrix class.
+    :param matrix, otherMatrix: matrices.
+    :return: a product of two matrices.
+    """
+
     if (not isinstance(matrix, Matrix)) or (not isinstance(otherMatrix, Matrix)):
         raise Exception("The parameters of the function must be matrices")
 
+    # base case
     if (matrix.get_number_of_rows() == 1) and (otherMatrix.get_number_of_columns() == 1):
-
-        """if matrix.get_number_of_rows() != otherMatrix.get_number_of_rows():
-            raise Exception("Dimensions do not match")
-        else:"""
         return sum([matrix.get_element(0, i) * otherMatrix.get_element(i, 0) for i in range(matrix.get_number_of_columns())])
 
+    # if conditions for matrix multiplication are satisfied
     elif matrix.get_number_of_columns() == otherMatrix.get_number_of_rows():
         result = []
         for i in range(matrix.get_number_of_rows()):
+            # empty list that represent rows of resultant matrix
             rows_in_result = []
             for j in range(otherMatrix.get_number_of_columns()):
+                # calculating entries
                 rows_in_result.append(dot_product(matrix.get_row_as_matrix(i), otherMatrix.get_column_as_matrix(j).transpose()))
             result.append(rows_in_result)
 
         return Matrix(result)
     else:
         raise Exception("Dimensions are different")
-
-
-# tensor product with numpy array
-def tensor_product_numpy(A, B):
-    m, n = A.shape
-    p, q = B.shape
-    C = [[0 for _ in range(n * q)] for _ in range(m * p)]
-    for i in range(m):
-        for j in range(n):
-            for k in range(p):
-                for l in range(q):
-                    C[i * p + k][j * q + l] = A[i][j] * B[k][l]
-
-    C = np.array(C)
-    return C

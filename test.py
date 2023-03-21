@@ -14,5 +14,6 @@ if __name__ == "__main__":
         grovers_algorithm(10, 0)
 
     else:
-        factors,ft = shors_algorithm(8)
-        print(type(factors))
+        # run Shor's algorithm
+        factors = shors_algorithm(135)
+        print(factors)

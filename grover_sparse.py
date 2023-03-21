@@ -8,6 +8,12 @@ import math
 
 
 def oracle(g, target_state):
+    """
+    This function produces the oracle gate.
+    :param g: an object of Gates class.
+    :param target_state: the target state.
+    :return: the oracle gate.
+    """
     I = g.identity_gate()
     oracle_matrix = I
     target_index = int("".join(map(str, target_state)), 2)
@@ -17,11 +23,22 @@ def oracle(g, target_state):
 
 
 def possible_states(n):
+    """
+    This function produces a list of all possible states.
+    :param n: number of qubits involved.
+    :return: list of all possible states.
+    """
     # Returns all possible 1 and 0 combinations for a qubit of size n.
     return list(itertools.product([0, 1], repeat=n))
 
 
-def grovers_algorithm(n,k):
+def grovers_algorithm(n, k):
+    """
+    This function runs Grover's algorithm.
+    :param n: number of qubits involved.
+    :param k: the state that the user wants to find.
+    :return: the position of the target.
+    """
     # target_state = [ 1,1]
     target_state = (bin(k)[2:])
     state_vector = []
@@ -83,17 +100,17 @@ def grovers_algorithm(n,k):
 
         target_position = final_state.index(max(final_state))
         target_amplitude = np.square(max(final_state))
-        target_amplitude = round(target_amplitude,3)
-        #print("The target is " + str(target_position))
+        target_amplitude = round(target_amplitude, 3)
+        # print("The target is " + str(target_position))
     else:
-        #print("The target was not found!")
+        # print("The target was not found!")
         target_amplitude = "none"
         target_position = "The target was not found!"
     fig1 = plt.figure()
     plt.bar(state_type, final_state)
     plt.xlabel('Amplitude of state vector')
     plt.ylabel('State vector')
-    
+
     fig1.savefig('static/plot1.png')
 
     angles = np.arcsin(np.array(amplitude))
@@ -119,5 +136,5 @@ def grovers_algorithm(n,k):
     ax.set_title('Amplitude amplification of target state ')
     fig.savefig('static/plot2.png')
 
-    #plt.show()
-    return target_position,target_amplitude
+    # plt.show()
+    return target_position, target_amplitude
