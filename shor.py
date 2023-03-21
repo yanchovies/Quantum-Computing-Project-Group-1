@@ -47,19 +47,16 @@ def controlled_U_gate(a, N, n_of_qubits):
         [[mod_exp(a, i, N) if i == j else 0 for i in range(2 ** n_of_qubits)] for j in range(2 ** n_of_qubits)])
 
 
-def qft_calculation(n_of_qubits):
+def inverse_qft_calculation(n_of_qubits):
     """
-    This function computes the QFT.
+    This function computes the QFT†.
     :param n_of_qubits: number of qubits.
-    :return: QFT.
+    :return: QFT†.
     """
 
-    qft = [[0 for i in range(2 ** n_of_qubits)] for j in range(2 ** n_of_qubits)]
     omega = np.exp(-2j * np.pi / (2 ** n_of_qubits))
-    for i in range(2 ** n_of_qubits):
-        for j in range(2 ** n_of_qubits):
-            qft[i][j] = omega ** (i * j)
-    return [[elem / np.sqrt(2 ** n_of_qubits) for elem in row] for row in qft]
+    return Matrix([[(omega ** (i * j)) / np.sqrt(2 ** n_of_qubits) for i in range(2 ** n_of_qubits)] for j in
+                   range(2 ** n_of_qubits)])
 
 
 def period_finding(a, N):
@@ -86,26 +83,26 @@ def period_finding(a, N):
     # applying controlled-U gates
     register = dot_product(controlled_U_gate(a, N, n_of_qubits), register)
 
-    # applying QFT
-    register = dot_product(Matrix(qft_calculation(n_of_qubits)), register)
+    # applying QFT†
+    register = dot_product(inverse_qft_calculation(n_of_qubits), register)
 
     # converting the register to a single list, then to a numpy array
-    register = np.array(register.transpose().get_row(0))
+    registerAsArray = np.array(register.transpose().get_row(0))
 
     # measuring the register
-    probabilities = np.abs(register) ** 2
-    probabilities_normalized = probabilities / np.sum(probabilities)
-    measured = np.random.choice(2 ** n_of_qubits, p=probabilities_normalized)
+    probabilities = np.abs(registerAsArray) ** 2
+    probabilitiesNormalized = probabilities / np.sum(probabilities)
+    measurementResult = np.random.choice(2 ** n_of_qubits, p=probabilitiesNormalized)
 
     # estimating the period
-    r = Fraction(measured, 2 ** n_of_qubits).limit_denominator(N).denominator
+    r = Fraction(measurementResult, 2 ** n_of_qubits).limit_denominator(N).denominator
     return r
 
 
 def shors_algorithm(N):
     """
     This function runs Shor's algorithm.
-    :param N: number to factorise.
+    :param N: the number to factorise.
     :return: the factors of N.
     """
 
@@ -131,8 +128,8 @@ def shors_algorithm(N):
         if r % 2 == 0:
             # calculating a^(r/2) mod N since r is even
             x = mod_exp(a, r // 2, N)
-            if x != N - 1:
-                # calculating the non-trivial factors since a^(r/2) mod N is congruent to -1 (mod N)
+            if type((x + 1) / N) != int:
+                # calculating the non-trivial factors since a^(r/2) mod N is not congruent to -1 (mod N)
                 factor1 = math.gcd(x + 1, N)
                 factor2 = math.gcd(x - 1, N)
                 if factor1 != 1 and factor1 != N and factor2 != 1 and factor2 != N:
