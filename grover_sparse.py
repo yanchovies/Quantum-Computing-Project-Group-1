@@ -42,12 +42,6 @@ def grovers_algorithm(n, k):
     # target_state = [ 1,1]
     target_state = (bin(k)[2:])
 
-
-if __name__ == "__main__":
-    
-    n = 3
-    #target_state = [ 1,1]
-    target_state = (bin(1)[2:])
     state_vector = []
     for i in range(2 ** n):
         if i == 0:
