@@ -7,10 +7,10 @@ This project is from the Quantum computing Project from the University of Edinbu
 The objects folder contains the two matrices that was used in writing the simulators:
 
 matrix.py
-   """
+   
     This class represents matrices. In our implementation of Grover's and Shor's algorithms, we use
     matrices represented by this class.
-   """
+    
     Within the matrix.py, we have a tensor_product function that computes a tensor product of two matrices of the Matrix class
     We also have a dot_product function that computes a product of two matrices of Matrix class.
 
@@ -25,12 +25,13 @@ gates.py
   
 grover_sparse.py
   oracle function
-    "    """
+   
     This function produces the oracle gate.
     :param g: an object of Gates class.
     :param target_state: the target state.
     :return: the oracle gate.
-    """
+   
+   
     
     The grover_algorithm runs the grover algorithm on the quantum simulator.
     
