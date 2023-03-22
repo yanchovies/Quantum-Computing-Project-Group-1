@@ -68,9 +68,10 @@ font-weight: bold;
 
 #state{
 
-margin-right: 12px;
+margin-right: 15px;
 font-family: 'Rajdhani', sans-serif;
 font-weight: bold;
+display: block;
 }
 
 footer {
@@ -96,10 +97,16 @@ footer a:active {
 }
 
 
+#target{
+
+margin-left: 10px;
+}
 
 
+#centered{
 
-
+margin: 0 auto;
+}
 
 
 

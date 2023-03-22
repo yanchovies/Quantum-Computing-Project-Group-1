@@ -30,8 +30,8 @@
 <div id="grover_input">
 <form action="{{url_for('home')}}", method="POST">
 
-
-  <label  for="qubit" id="qubit_label">Number of quibits</label>
+<div id="centered">
+  <label  for="qubit" id="qubit_label">Number of qubits</label>
   <select  id="qubit" name="qubit" required>
    
     <option value="1">1</option>
@@ -46,9 +46,9 @@
     <option value="10">10</option>
   </select>
 
-<label for="target" id= "state">Enter target state:</label> <input id="target" name="target" type="number" required min="0"/>
-
-<button type="submit" class="btn btn-dark" id = "search">Serach</button>
+  <label for="target" id= "state">Enter target state <input id="target" name="target" type="number" required min="0"/> </label>
+</div>
+<button type="submit" class="btn btn-dark" id = "search">Search</button>
 </form>
 </div>
    <footer>
