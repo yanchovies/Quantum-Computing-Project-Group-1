@@ -37,14 +37,16 @@ def repeated_hadamard(h, n_of_qubits):
 
 def controlled_U_gate(a, N, n_of_qubits):
     """
-    This function computes the controlled U gate, i.e. a diagonal matrix where each diagonal entry is mod_exp(a, i, N).
+    This function computes the controlled U gate, i.e.
+     a diagonal matrix where each diagonal entry is mod_exp(a, i, N).
     :param a, N: numbers.
     :param n_of_qubits: number of qubits.
     :return: the controlled U gate.
     """
 
     return Matrix(
-        [[mod_exp(a, i, N) if i == j else 0 for i in range(2 ** n_of_qubits)] for j in range(2 ** n_of_qubits)])
+        [[mod_exp(a, i, N) if i == j else 0 for i in range(2 ** n_of_qubits)]
+         for j in range(2 ** n_of_qubits)])
 
 
 def inverse_qft_calculation(n_of_qubits):
@@ -123,16 +125,16 @@ def shors_algorithm(N):
 
         # calculating the period
         r = period_finding(a, N)
+
         # print("current period is", r)
 
         if r % 2 == 0:
             # calculating a^(r/2) mod N since r is even
             x = mod_exp(a, r // 2, N)
-            if type((x + 1) / N) != int:
+            if (x + 1) % N == 0:
                 # calculating the non-trivial factors since a^(r/2) mod N is not congruent to -1 (mod N)
                 factor1 = math.gcd(x + 1, N)
                 factor2 = math.gcd(x - 1, N)
                 if factor1 != 1 and factor1 != N and factor2 != 1 and factor2 != N:
                     # if the factors are indeed non-trivial, we return them
-                    # print("These factors were found with quantum computation involved")
                     return factor1, factor2

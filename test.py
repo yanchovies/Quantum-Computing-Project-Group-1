@@ -59,27 +59,30 @@ if __name__ == "__main__":
 
         print(nums)"""
 
-        """list_of_times = []
-                for item in rand_list:
-                    start_time = time.time()
-                    a, b = shors_algorithm(item)
-                    time_it_took = time.time() - start_time
-                    print("factors are ", a, b)
-                    list_of_times.append(time_it_took)
+        rand_sorted_list = [51, 323, 865, 1011, 1689, 2285, 2863, 3387, 3729, 3941]
 
-                print(list_of_times)"""
+        """list_of_times = []
+        for item in rand_sorted_list:
+            start_time = time.time()
+            a, b = shors_algorithm(item)
+            time_it_took = time.time() - start_time
+            print("factors are ", a, b)
+            list_of_times.append(time_it_took)
+
+        print(list_of_times)"""
+
+        list_of_times = [0.16371822357177734, 3.277959108352661, 13.493573427200317, 7.870526552200317, 3.0994415283203125e-06, 2.86102294921875e-06, 1.6689300537109375e-06, 170.54090309143066, 162.8967206478119, 819.3869235515594]
 
         # these were precalculated
-        rand_sorted_list = [51, 323, 865, 1011, 1689, 2285, 2863, 3387, 3729, 3941]
-        times = [0.0330047607421875, 5.41510009765625, 7.18571925163269, 6.968134164810181, 55.93229818344116, 1244.950518131256, 1377.7137186527252, 152.76835465431213, 3.337860107421875e-06, 486.82393765449524]
+        # times = [0.0330047607421875, 5.41510009765625, 7.18571925163269, 6.968134164810181, 55.93229818344116, 1244.950518131256, 1377.7137186527252, 152.76835465431213, 3.337860107421875e-06, 486.82393765449524]
 
         fig, ax = plt.subplots()
 
-        ax.plot(rand_sorted_list, times, '-o')
+        ax.plot(rand_sorted_list, list_of_times, '-o')
 
         # Set the limits of the x and y axes
         ax.set_xlim([0, 4000])
-        ax.set_ylim([0, 1500])
+        ax.set_ylim([0, 1000])
 
         # Set the labels for the x and y axes
         ax.set_xlabel('A number to factorise')
