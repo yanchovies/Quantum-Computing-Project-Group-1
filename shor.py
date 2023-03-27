@@ -131,7 +131,7 @@ def shors_algorithm(N):
         if r % 2 == 0:
             # calculating a^(r/2) mod N since r is even
             x = mod_exp(a, r // 2, N)
-            if (x + 1) % N == 0:
+            if (x + 1) % N != 0:
                 # calculating the non-trivial factors since a^(r/2) mod N is not congruent to -1 (mod N)
                 factor1 = math.gcd(x + 1, N)
                 factor2 = math.gcd(x - 1, N)
